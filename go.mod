@@ -9,6 +9,7 @@ require (
 	github.com/aws/aws-sdk-go v1.30.27
 	github.com/biessek/golang-ico v0.0.0-20180326222316-d348d9ea4670
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
+	github.com/certifi/gocertifi v0.0.0-20200211180108-c7c1fbc02894
 	github.com/develar/errors v0.9.0
 	github.com/develar/go-fs-util v0.0.0-20190620175131-69a2d4542206
 	github.com/develar/go-pkcs12 v0.0.0-20181115143544-54baa4f32c6a

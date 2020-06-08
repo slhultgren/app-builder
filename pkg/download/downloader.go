@@ -18,6 +18,7 @@ import (
 	fsutil "github.com/develar/go-fs-util"
 	"github.com/dustin/go-humanize"
 	"go.uber.org/zap"
+	"github.com/certifi/gocertifi"
 )
 
 //noinspection SpellCheckingInspection
@@ -37,10 +38,16 @@ func getTlsConfig() *tls.Config {
 		return &tls.Config{}
 	}
 
-	// Get the SystemCertPool, continue with an empty pool on error
+	// Get the SystemCertPool, continue with an empty pool on error.
+	// Fallback to gocertifi set of certificates if we can't get from system.
+	// Useful because on Windows x509.SystemCertPool always returns nil. See https://github.com/golang/go/issues/16736
 	rootCAs, _ := x509.SystemCertPool()
 	if rootCAs == nil {
-		rootCAs = x509.NewCertPool()
+		rootCAs, _ = gocertifi.CACerts()
+		if rootCAs == nil {
+			log.Warn("Failed to get fallback CertPool, will create empty pool")
+			rootCAs = x509.NewCertPool()
+		}
 	}
 
 	// Read in the cert file
